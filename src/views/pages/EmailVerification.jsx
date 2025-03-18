@@ -67,6 +67,12 @@ const EmailVerification = () => {
   if (!open) return navigate("/auth/register-page");
 
   return (
+    <>
+    <Box 
+            position="absolute" 
+            top={0} left={0} right={0} bottom={0} 
+            sx={{ backgroundImage: "url('/login-bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+          />
     <Container maxWidth="sm" sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
       <Paper elevation={3} sx={{ padding: isMobile ? 2 : 4, borderRadius: 3, textAlign: "center", position: "relative" }}>
         <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
@@ -120,7 +126,8 @@ const EmailVerification = () => {
           Resend Code
         </Typography>
       </Paper>
-    </Container>
+    </Container></>
+     
   );
 };
 
