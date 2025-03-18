@@ -3,6 +3,7 @@ import { Box, Button, Container, Grid, Paper, TextField, Typography, useMediaQue
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast"; 
 
 const EmailVerification = () => {
   const theme = useTheme();
@@ -16,14 +17,24 @@ const EmailVerification = () => {
   const inputRefs = useRef([]);
   const otpGenerated = useRef(false);
 
-  useEffect(() => {
-    if (!otpGenerated.current) {
-      const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+  function generateOTP()
+  {
+    const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
       setGeneratedOtp(newOtp);
       console.log("Generated OTP:", newOtp);
+      toast.success("OTP sent to Your Mail", {
+        position: "top-right", 
+        duration: 3000,        
+      });
+  }
+
+  useEffect(() => {
+    if (!otpGenerated.current) {
+    generateOTP();
       otpGenerated.current = true;  
     }
   }, []);
+  
 
   // Handle input change
   const handleChange = (e, index) => {
@@ -58,13 +69,20 @@ const EmailVerification = () => {
   // Validate OTP (Replace with actual validation logic)
   const validateOtp = (enteredOtp) => {
     if (enteredOtp === generatedOtp) {
-      alert("✅ OTP Verified Successfully!");
+      // alert("✅ OTP Verified Successfully!");
+      toast.success(" OTP Verified Successfully!");
     } else {
-      alert("❌ Invalid OTP. Please try again.");
+      // alert("❌ Invalid OTP. Please try again.");
+      toast.error("Invalid OTP. Please try again.");
+
     }
   };
 
-  if (!open) return navigate("/auth/register-page");
+  useEffect(() => {
+    if (!open) {
+      navigate("/auth/register-page");
+    }
+  }, [open, navigate]);
 
   return (
     <>
@@ -76,7 +94,7 @@ const EmailVerification = () => {
     <Container maxWidth="sm" sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
       <Paper elevation={3} sx={{ padding: isMobile ? 2 : 4, borderRadius: 3, textAlign: "center", position: "relative" }}>
         <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-          <img src="/email-icon.png" alt="Email Verification" width={isMobile ? 60 : 80} height={isMobile ? 60 : 80} />
+          <img src="/3001931.jpg" alt="Email Verification" width={isMobile ? 60 : 200} height={isMobile ? 60 : 200} />
         </Box>
         <IconButton
           sx={{ position: "absolute", top: 10, right: 10, "&:hover": { color: "red" } }}
@@ -111,7 +129,7 @@ const EmailVerification = () => {
           ))}
         </Grid>
         <Typography variant="body2" mt={2}>
-          Want to change your email? <Typography component="span" color="primary" sx={{ cursor: "pointer" }}>Change Here</Typography>
+          Want to change your email? <Typography component="span" color="primary" sx={{ cursor: "pointer" }} onClick={()=>{navigate('/auth/register-page')}}>Change Here</Typography>
         </Typography>
         <Button
           variant="contained"
@@ -122,7 +140,7 @@ const EmailVerification = () => {
         >
           Verify Email
         </Button>
-        <Typography variant="body2" mt={2} color="primary" sx={{ cursor: "pointer" }}>
+        <Typography variant="body2" mt={2} color="primary" sx={{ cursor: "pointer" }} onClick={generateOTP}>
           Resend Code
         </Typography>
       </Paper>
