@@ -1,6 +1,7 @@
 import {React, useState} from "react";
 // import cogoToast from "cogo-toast";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import api from "../../utils/apiClient";
 // import SimpleBackdrop from "../../utils/general";
@@ -8,7 +9,7 @@ import moment from "moment";
 import { CommonConfig } from "../../utils/constant";
 
 // Material UI components
-import { Box, Paper, TextField, Button, Typography, Link, InputAdornment, Grid, Popover } from "@mui/material";
+import { Box, Paper, TextField, Button, Typography, Link, InputAdornment, Grid, Popover,useMediaQuery } from "@mui/material";
 // import { makeStyles } from "@mui/styles";
 // import InputAdornment from "@mui/material/InputAdornment";
 // import Icon from "@mui/material/Icon";
@@ -55,6 +56,8 @@ import PhoneIcon from "@mui/icons-material/Phone";
 const RegisterPage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeField, setActiveField] = useState(""); 
+  const isMobile = useMediaQuery("(max-width:600px)");
+  const navigate=useNavigate();
   const [state, setState] = useState({
     fullnameErr: false,
     usernameErr: false,
@@ -310,6 +313,7 @@ const RegisterPage = () => {
       minHeight="100vh" 
       bgcolor="gray.100" 
       position="relative"
+      px={isMobile ? 2 : 0}
     >
       {/* Background Image */}
       <Box 
@@ -318,7 +322,7 @@ const RegisterPage = () => {
         sx={{ backgroundImage: "url('/login-bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
       />
 
-      <Paper sx={{ p: 4, borderRadius: 2, boxShadow: 3, zIndex: 10, maxWidth: 400, width: "100%",borderTop: "5px solid #d9040c" }}>
+      <Paper sx={{  p: isMobile ? 3 : 4, borderRadius: 2, boxShadow: 3, zIndex: 10, maxWidth: 400, width: "100%",borderTop: "5px solid #d9040c" }}>
         <Box display="flex" justifyContent="center" mb={2}>
           <img src="/SFL_logo.png" alt="SFL Worldwide" style={{ height: "3rem" }} />
         </Box>
@@ -434,8 +438,8 @@ const RegisterPage = () => {
           )}
           
       </Box>
-<Grid container spacing={2}>
-  <Grid item xs={6}>
+<Grid container spacing={isMobile ? 1 : 2}>
+  <Grid item xs={12} sm={6}>
     <TextField
       fullWidth
       type="password"
@@ -471,7 +475,7 @@ const RegisterPage = () => {
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: isMobile? "left":"center" }}
         transformOrigin={{ vertical: "top", horizontal: "center" }}
         disableAutoFocus
         disableEnforceFocus
@@ -514,7 +518,7 @@ const RegisterPage = () => {
     
   </Grid>
   
-  <Grid item xs={6}>
+  <Grid item xs={12} sm={6}>
     <TextField
       fullWidth
       type="password"
@@ -600,6 +604,11 @@ const RegisterPage = () => {
                   <FaEnvelope color="gray" />
                 </InputAdornment>
               ),
+              endAdornment: state.email.includes("@") ? (
+                <Button  type="submit"  
+                variant="contained" 
+                sx={{ backgroundColor: "Green" }} onClick={()=>{navigate('/emailverification')}}>Verify</Button>
+              ) : null,
             }}
           />
 
