@@ -5,10 +5,11 @@ import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast"; 
 import { useRegister } from "../RegisterContext";
+import axios from "axios";
 
 
 const EmailVerification = () => {
-    const {emailVerify,setEmailVerify}=useRegister();
+    const {emailVerify,setEmailVerify,registerDetails}=useRegister();
   
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -21,16 +22,46 @@ const EmailVerification = () => {
   const inputRefs = useRef([]);
   const otpGenerated = useRef(false);
 
-  function generateOTP()
-  {
-    const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      setGeneratedOtp(newOtp);
-      console.log("Generated OTP:", newOtp);
-      toast.success("OTP sent to Your Mail", {
-        position: "top-right", 
-        duration: 3000,        
-      });
+  // async function generateOTP()
+  // {
+  //   const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+  //     setGeneratedOtp(newOtp);
+  //     console.log("Generated OTP:", newOtp);
+  //     toast.success("OTP sent to Your Mail", {
+  //       position: "top-right", 
+  //       duration: 3000,        
+  //     });
+  // }
+
+async function generateOTP() {
+  const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+  setGeneratedOtp(newOtp); 
+
+  console.log("Generated OTP:", newOtp);
+
+  try {
+    const response = await axios.post("http://localhost:5000/send-email", {
+      email: registerDetails.email, 
+      otp: newOtp,                   
+    });
+
+    toast.success("OTP sent to your email!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+
+    setMessage(response.data.message);
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+    toast.error("Failed to send OTP. Try again.", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+
+    setMessage("Failed to send email.");
   }
+}
+
 
   useEffect(() => {
     if (!otpGenerated.current) {
@@ -149,6 +180,12 @@ const EmailVerification = () => {
         <Typography variant="body2" mt={2} color="primary" sx={{ cursor: "pointer" }} onClick={generateOTP}>
           Resend Code
         </Typography>
+        <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message={message}
+      />
       </Paper>
     </Container></>
      
