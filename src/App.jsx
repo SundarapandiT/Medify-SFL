@@ -3,11 +3,10 @@ import {React,useState} from "react";
 import RegisterPage from "./views/pages/RegisterPage";
 import EmailVerification from "./views/pages/EmailVerification";
 import { Toaster } from "react-hot-toast";
-import "./index.css"
+import "./index.css";
 
 function App() {
   return (
-    
     <Router>
       <div><Toaster position="top-right" reverseOrder={false} /></div>
       <Routes>

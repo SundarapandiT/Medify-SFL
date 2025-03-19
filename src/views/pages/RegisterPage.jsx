@@ -52,12 +52,15 @@ import PhoneIcon from "@mui/icons-material/Phone";
 
 
 // const useStyles = makeStyles(styles);
+import { useRegister } from "../RegisterContext";
+
 
 const RegisterPage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeField, setActiveField] = useState(""); 
   const isMobile = useMediaQuery("(max-width:600px)");
   const navigate=useNavigate();
+  const {emailVerify,setEmailVerify, registerDetails, setRegisterDetails}=useRegister();
   const [state, setState] = useState({
     fullnameErr: false,
     usernameErr: false,
@@ -102,7 +105,15 @@ const RegisterPage = () => {
       [name]: value,
     }));
   };
-
+  const handleRegister = (e)=>
+  {
+    const { name, value } = e.target;
+    setRegisterDetails({
+      ...registerDetails,
+      [name]: value,
+  });
+  }
+  // console.log(registerDetails);
   const validate = () => {
     let isFormValid = true;
     let errors = {};
@@ -335,7 +346,11 @@ const RegisterPage = () => {
   // placeholder="Full Name"
   variant="outlined"
   margin="normal"
-  onChange={handleChange}
+  value={registerDetails.fullname}
+  onChange={(e) => {
+    handleChange(e);
+    handleRegister(e);
+}}
   onBlur={(e) => handleBlur(e, "fullname")}
   onFocus={() =>
     setState((prevState) => ({
@@ -367,7 +382,11 @@ const RegisterPage = () => {
             // placeholder="Username"
             variant="outlined"
             margin="normal"
-            onChange={handleChange}
+            value={registerDetails.username}
+            onChange={(e) => {
+              handleChange(e);
+              handleRegister(e);
+          }}
             onBlur={(e) =>{handleBlur(e, "username")}}
             onFocus={(e) =>{
               setAnchorEl(e.currentTarget);
@@ -448,7 +467,11 @@ const RegisterPage = () => {
       // placeholder="Password"
       variant="outlined"
       margin="normal"
-      onChange={handleChange}
+      value={registerDetails.password}
+      onChange={(e) => {
+        handleChange(e);
+        handleRegister(e);
+    }}
       onBlur={(e) => handleBlur(e, "password")}
       onFocus={(e) =>{
         setAnchorEl(e.currentTarget);
@@ -527,7 +550,11 @@ const RegisterPage = () => {
       // placeholder="Confirm Password"
       variant="outlined"
       margin="normal"
-      onChange={handleChange}
+      value={registerDetails.confirmpassword}
+      onChange={(e) => {
+        handleChange(e);
+        handleRegister(e);
+    }}
       onBlur={(e) => handleBlur(e, "confirmpassword")}
       onFocus={() =>
         setState((prevState) => ({
@@ -556,7 +583,11 @@ const RegisterPage = () => {
             // placeholder="Contact Number"
             variant="outlined"
             margin="normal"
-            onChange={handleChange}
+            value={registerDetails.mobile}
+            onChange={(e) => {
+              handleChange(e);
+              handleRegister(e);
+          }}
             onBlur={(e) => handleBlur(e, "mobile")}
             onFocus={() =>
               setState((prevState) => ({
@@ -566,8 +597,8 @@ const RegisterPage = () => {
                 checkMobile: false,
               }))
             }
-            error={state.confirmpasswordErr}
-            helperText={state.confirmpasswordHelperText}
+            error={state.mobileErr}
+            helperText={state.mobileHelperText}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -585,8 +616,12 @@ const RegisterPage = () => {
             label="Email Address"
             // placeholder="Email Address"
             variant="outlined"
+            value={registerDetails.email}
             margin="normal"
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              handleRegister(e);
+          }}
             onBlur={(e) => handleBlur(e, "email")}
             onFocus={() =>
               setState((prevState) => ({
@@ -616,7 +651,8 @@ const RegisterPage = () => {
             type="submit" 
             fullWidth 
             variant="contained" 
-            sx={{ mt: 2, backgroundColor: "red" }} 
+            sx={{ mt: 2, backgroundColor: "red" ,boxShadow:"1px 1px 3px red"}} 
+            disabled={emailVerify?false:true}
           >
             SIGN UP
           </Button>

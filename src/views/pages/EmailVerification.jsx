@@ -4,8 +4,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast"; 
+import { useRegister } from "../RegisterContext";
+
 
 const EmailVerification = () => {
+    const {emailVerify,setEmailVerify}=useRegister();
+  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
@@ -71,6 +75,8 @@ const EmailVerification = () => {
     if (enteredOtp === generatedOtp) {
       // alert("✅ OTP Verified Successfully!");
       toast.success(" OTP Verified Successfully!");
+      setEmailVerify(true);
+      navigate('/auth/register-page');
     } else {
       // alert("❌ Invalid OTP. Please try again.");
       toast.error("Invalid OTP. Please try again.");
