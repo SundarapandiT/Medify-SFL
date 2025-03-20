@@ -1,58 +1,23 @@
 import {React, useState} from "react";
-// import cogoToast from "cogo-toast";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 // import api from "../../utils/apiClient";
-// import SimpleBackdrop from "../../utils/general";
-import moment from "moment";
+
 import { CommonConfig } from "../../utils/constant";
 
-// Material UI components
+
 import { Box, Paper, TextField, Button, Typography, Link, InputAdornment, Grid, Popover,useMediaQuery,IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-// import { makeStyles } from "@mui/styles";
-// import InputAdornment from "@mui/material/InputAdornment";
-// import Icon from "@mui/material/Icon";
-// import ListItemText from "@mui/material/ListItemText";
-import { NavLink } from "react-router-dom";
 
-// Material UI Icons
 import { FaUser, FaLock, FaPhone, FaEnvelope } from "react-icons/fa";
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import { red, green } from "@mui/material/colors";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import LockIcon from "@mui/icons-material/Lock";
+
 import PhoneIcon from "@mui/icons-material/Phone";
-// import EmailIcon from "@mui/icons-material/Email";
 
-// import { green, red } from "@mui/material/colors";
-// import CloseIcon from "@mui/icons-material/Close";
-// import DoneIcon from "@mui/icons-material/Done";
-// import FormControl from "@mui/material/FormControl";
-// import TextField from "@mui/material/TextField";
-// import Typography from "@mui/material/Typography";
-
-// Core Components
-// import GridContainer from "../../components/Grid/GridContainer";
-// import GridItem from "../../components/Grid/GridItem";
-// import Button from "../../components/CustomButtons/Button.js";.
-// import CustomInput from "../../components/CustomInput/CustomInput";
-// import Card from "../../components/Card/Card";
-// import CardBody from "../../components/Card/CardBody";
-
-
-// Styles
-// import styles from "../../assets/jss/material-dashboard-pro-react/views/registerPageStyle";
-
-
-// Image
-// import image from "assets/img/left-SIGNUP-image.png";
-
-
-// const useStyles = makeStyles(styles);
 import { useRegister } from "../RegisterContext";
 import CryptoJS from "crypto-js";
 
@@ -116,7 +81,7 @@ const RegisterPage = () => {
       [name]: value,
   });
   }
-  // console.log(registerDetails);
+
   const validate = () => {
     let isFormValid = true;
     let errors = {};
@@ -281,13 +246,11 @@ const RegisterPage = () => {
           Email: CryptoJS.AES.encrypt(registerDetails.email, SECRET_KEY).toString(),
         };
   
-        console.log((encryptedData));
+        // console.log((encryptedData));
+        toast.success("Registration successful!");
 
-        // const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
-        // const decryptedString = bytes.toString(CryptoJS.enc.Utf8);
-
-        // console.log(JSON.parse(decryptedString));
         // Send encrypted data to backend
+
         // const res = await axios.post("http://localhost:5000/api/submit", {
         //   data: encryptedData,
         // });
@@ -303,33 +266,6 @@ const RegisterPage = () => {
       }
     }
   }
-
-  // const login = async (data) => {
-  //   try {
-  //     const res = await api.post("authentication/userLoginAuthenticate", data);
-  //     if (res.success) {
-  //       setState((prevState) => ({ ...prevState, Loading: true, isloggedIn: true }));
-
-  //       let timeZone = moment.tz.guess();
-  //       const time = moment.tz(res.Data.LastLoginTimestamp);
-  //       const date = time.clone().tz(timeZone);
-  //       let formatDate = moment(date).format("YYYY-MM-DD HH:mm:ss");
-  //       formatDate = moment(formatDate).add(30, "minutes");
-  //       res.Data.LastLoginTimestamp = moment(formatDate).format("YYYY-MM-DD HH:mm:ss");
-
-  //       localStorage.setItem("loggedInUserData", JSON.stringify(res.Data));
-        
-  //       setTimeout(() => {
-  //         window.location.href = "/admin/Scheduleshipment";
-  //       }, 4000);
-  //     } else {
-  //       setState((prevState) => ({ ...prevState, Loading: false }));
-  //       toast.error(res.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error("Something went wrong");
-  //   }
-  // };
 
   return (
     
@@ -447,11 +383,6 @@ const RegisterPage = () => {
             {/[a-zA-Z]/.test(state.username) ? <CheckCircle color="success" /> : <Cancel color="error" />}
             &nbsp; Must be letters a - z
           </Typography>
-
-          {/* <Typography color={state.username.trim() === state.username ? "green" : "red"} sx={{ display: "flex", alignItems: "center" }}>
-            {state.username.trim() === state.username ? <CheckCircle color="success" /> : <Cancel color="error" />}
-            &nbsp; No leading or trailing spaces
-          </Typography> */}
 
           <Typography color={state.username.length >= 8 && state.username.length <= 32 ? "green" : "red"} sx={{ display: "flex", alignItems: "center" , fontSize: "0.855rem"}}>
             {state.username.length >= 8 && state.username.length <= 32 ? <CheckCircle color="success" /> : <Cancel color="error" />}
@@ -693,360 +624,6 @@ const RegisterPage = () => {
             </Typography></Box>
       </Paper>
     </Box>
-    
-   
-    
-    // <div className="signup-page-outer">
-    //     {state.Loading === true ? (
-    //       <div className="loading">
-    //         <SimpleBackdrop />
-    //       </div>
-    //     ) : null}
-    //     <GridContainer justify="center">
-    //       <GridItem className="signup-page-outer2">
-    //         <Card className="Signup-main-outer">
-    //           <CardBody className="Signup-main-inner">
-    //             <GridContainer>
-    //               <GridItem
-    //                 xs={12}
-    //                 sm={12}
-    //                 md={6}
-    //                 className="signup-left-section"
-    //               >
-    //                 <div className="signup-left-outer">
-    //                   <div className="signup-left-inner">
-    //                     <div className="signup-left-text">
-    //                       <h2>Introducing Ship Smart with SFL Worldwide</h2>
-    //                       <p>
-    //                         One Stop Hub for all Domestic & International
-    //                         Shipping and Moving Services
-    //                       </p>
-    //                       <img src={image} alt="SFL Worldwide" />
-    //                     </div>
-    //                   </div>
-    //                 </div>
-    //               </GridItem>
-    //               <GridItem xs={12} sm={12} md={6}>
-    //                 <div className="login-logo"></div>
-    //                 <form className="signup-form-outer">
-    //                   <CustomInput
-    //                     labelText={<span>Full Name</span>}
-    //                     id="fullname"
-    //                     name="fullname"
-    //                     variant="outlined"
-    //                     error={state.fullnameErr}
-    //                     helperText={state.fullnameHelperText}
-    //                     formControlProps={{ fullWidth: true }}
-    //                     inputProps={{
-    //                       onBlur: (event) => handleBlur(event, "fullname"),
-    //                       onFocus: () =>
-    //                         setState({
-    //                           fullnameErr: false,
-    //                           fullnameHelperText: "",
-    //                           checkFullName: false,
-    //                         }),
-    //                       endAdornment:
-    //                         checkFullName !== true ? (
-    //                           <Icon>person</Icon>
-    //                         ) : fullnameErr ? (
-    //                           <InputAdornment position="end">
-    //                             <CloseIcon
-    //                               style={{ color: red[500] }}
-    //                               className={useStyles.danger}
-    //                             />
-    //                           </InputAdornment>
-    //                         ) : (
-    //                           <InputAdornment position="end">
-    //                             {" "}
-    //                             <DoneIcon
-    //                               style={{ color: green[500] }}
-    //                               className={useStyles.success}
-    //                             />
-    //                           </InputAdornment>
-    //                         ),
-    //                     }}
-    //                   />
-
-    //                   <CustomInput
-    //                     labelText="User Name"
-    //                     id="username"
-    //                     error={state.usernameErr}
-    //                     helperText={state.usernameHelperText}
-    //                     formControlProps={{ fullWidth: true }}
-    //                     inputProps={{
-    //                       onBlur: (event) => handleBlur(event, "username"),
-    //                       onFocus: () =>
-    //                         setState({
-    //                           usernameErr: false,
-    //                           usernameHelperText: "",
-    //                           checkUserName: false,
-    //                         }),
-    //                       endAdornment:
-    //                         checkUserName !== true ? (
-    //                           <Icon>person</Icon>
-    //                         ) : usernameErr ? (
-    //                           <InputAdornment position="end">
-    //                             <CloseIcon
-    //                               style={{ color: red[500] }}
-    //                               className={useStyles.danger}
-    //                             />
-    //                           </InputAdornment>
-    //                         ) : (
-    //                           <InputAdornment position="end">
-    //                             {" "}
-    //                             <DoneIcon
-    //                               style={{ color: green[500] }}
-    //                               className={useStyles.success}
-    //                             />
-    //                           </InputAdornment>
-    //                         ),
-    //                     }}
-    //                   />
-
-    //                   <GridContainer>
-    //                     <GridItem xs={12} sm={6} md={6} className="pln">
-    //                       <MDBContainer>
-    //                         <MDBPopover
-    //                           className="ps-popover-outer"
-    //                           placement="bottom"
-    //                           popover
-    //                           id="popper1"
-    //                         >
-    //                           <FormControl fullWidth className="pass-input">
-    //                             <TextField
-    //                               label="Password"
-    //                               id="password"
-    //                               type="password"
-    //                               error={state.passwordErr}
-    //                               value={state.password}
-    //                               formControlProps={{ fullWidth: true }}
-    //                               aria-describedby="simple-popover"
-    //                               helperText={state.passwordHelperText}
-    //                               inputProps={{
-    //                                 onChange: (event) =>
-    //                                   handleBlur(event, "password"),
-    //                                 onBlur: (event) =>
-    //                                   handleBlur(event, "password"),
-    //                                 onFocus: () =>
-    //                                   setState({
-    //                                     passwordErr: false,
-    //                                     passwordHelperText: "",
-    //                                     checkPassword: true,
-    //                                   }),
-    //                               }}
-    //                             />
-    //                           </FormControl>
-    //                           <div className="ps-popover-inner">
-    //                             <MDBPopoverHeader>
-    //                               Your password must have:
-    //                             </MDBPopoverHeader>
-    //                             <MDBPopoverBody>
-    //                               <React.Fragment>
-    //                                 {checkUpperCase ? (
-    //                                   <Typography style={{ color: "#2E7D32" }}>
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     uppercase letter
-    //                                   </Typography>
-    //                                 ) : (
-    //                                   <Typography color="error">
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     uppercase letter
-    //                                   </Typography>
-    //                                 )}
-    //                                 {checkLowerCase ? (
-    //                                   <Typography style={{ color: "#2E7D32" }}>
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     lowercase letter
-    //                                   </Typography>
-    //                                 ) : (
-    //                                   <Typography color="error">
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     lowercase letter
-    //                                   </Typography>
-    //                                 )}
-    //                                 {checkSpecialCharacter ? (
-    //                                   <Typography style={{ color: "#2E7D32" }}>
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     special character
-    //                                   </Typography>
-    //                                 ) : (
-    //                                   <Typography color="error">
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     special character
-    //                                   </Typography>
-    //                                 )}
-    //                                 {checkNumber ? (
-    //                                   <Typography style={{ color: "#2E7D32" }}>
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     number
-    //                                   </Typography>
-    //                                 ) : (
-    //                                   <Typography color="error">
-    //                                     <i class="far fa-check-circle"></i>One
-    //                                     number
-    //                                   </Typography>
-    //                                 )}
-    //                                 {checkLetter ? (
-    //                                   <Typography style={{ color: "#2E7D32" }}>
-    //                                     <i class="far fa-check-circle"></i>
-    //                                     Minimum 8 characters
-    //                                   </Typography>
-    //                                 ) : (
-    //                                   <Typography color="error">
-    //                                     <i class="far fa-check-circle"></i>
-    //                                     Minimum 8 characters
-    //                                   </Typography>
-    //                                 )}
-    //                               </React.Fragment>
-    //                             </MDBPopoverBody>
-    //                           </div>
-    //                         </MDBPopover>
-    //                       </MDBContainer>
-    //                     </GridItem>
-
-    //                     <GridItem xs={12} sm={6} md={6} className="prn">
-    //                       <CustomInput
-    //                         labelText="Confirm Password"
-    //                         error={
-    //                           state.confirmpasswordErr}
-    //                         helperText={
-    //                           state.confirmpasswordHelperText}
-    //                         formControlProps={{ fullWidth: true }}
-    //                         inputProps={{
-    //                           onBlur: (event) =>
-                                
-    //                             handleBlur(event, "confirmpassword"),
-    //                           onFocus: () =>
-                                
-    //                             setState({
-    //                               confirmpasswordErr: false,
-    //                               confirmpasswordHelperText: "",
-    //                               checkConfirmPassword: false,
-    //                             }),
-    //                           endAdornment:
-    //                             checkConfirmPassword !== true ? (
-    //                               <Icon>lock_outline</Icon>
-    //                             ) : confirmpasswordErr ? (
-    //                               <InputAdornment position="end">
-    //                                 <CloseIcon
-    //                                   style={{ color: red[500] }}
-    //                                   className={useStyles.danger}
-    //                                 />
-    //                               </InputAdornment>
-    //                             ) : (
-    //                               <InputAdornment position="end">
-    //                                 {" "}
-    //                                 <DoneIcon
-    //                                   style={{ color: green[500] }}
-    //                                   className={useStyles.success}
-    //                                 />
-    //                               </InputAdornment>
-    //                             ),
-    //                           type: "password",
-    //                           autoComplete: "off",
-    //                         }}
-    //                       />
-    //                     </GridItem>
-    //                   </GridContainer>
-
-    //                   <CustomInput
-    //                     labelText="Contact Number"
-    //                     id="contactnumber"
-    //                     error={state.mobileErr}
-    //                     helperText={state.mobileHelperText}
-    //                     formControlProps={{ fullWidth: true }}
-    //                     inputProps={{
-    //                       onFocus: () =>
-    //                         setState({
-    //                           mobileErr: false,
-    //                           mobileHelperText: "",
-    //                           checkMobile: false,
-    //                         }),
-    //                       onBlur: (event) => handleBlur(event, "mobile"),
-    //                       endAdornment:
-    //                         checkMobile !== true ? (
-    //                           <Icon>phone</Icon>
-    //                         ) : mobileErr ? (
-    //                           <InputAdornment position="end">
-    //                             <CloseIcon
-    //                               style={{ color: red[500] }}
-    //                               className={useStyles.danger}
-    //                             />
-    //                           </InputAdornment>
-    //                         ) : (
-    //                           <InputAdornment position="end">
-    //                             {" "}
-    //                             <DoneIcon
-    //                               style={{ color: green[500] }}
-    //                               className={useStyles.success}
-    //                             />{" "}
-    //                           </InputAdornment>
-    //                         ),
-    //                     }}
-    //                   />
-
-    //                   <CustomInput
-    //                     labelText="Email Address *"
-    //                     error={state.emailErr}
-    //                     formControlProps={{ fullWidth: true }}
-    //                     helperText={state.emailHelperText}
-    //                     inputProps={{
-    //                       onBlur: (event) => handleBlur(event, "email"),
-    //                       onFocus: () =>
-    //                         setState({
-    //                           emailErr: false,
-    //                           emailHelperText: "",
-    //                           checkEmail: false,
-    //                         }),
-    //                       endAdornment:
-    //                         state.checkEmail !== true ? (
-    //                           <Icon>email</Icon>
-    //                         ) : emailErr ? (
-    //                           <InputAdornment position="end">
-    //                             <CloseIcon
-    //                               style={{ color: red[500] }}
-    //                               className={useStyles.danger}
-    //                             />
-    //                           </InputAdornment>
-    //                         ) : (
-    //                           <InputAdornment position="end">
-    //                             {" "}
-    //                             <DoneIcon
-    //                               style={{ color: green[500] }}
-    //                               className={useStyles.success}
-    //                             />{" "}
-    //                           </InputAdornment>
-    //                         ),
-    //                       type: "email",
-    //                     }}
-    //                   />
-
-    //                   <div className="align-center">
-    //                     <Button
-    //                       className="signup-btn"
-    //                       onClick={(event) => signUP(event)}
-    //                     >
-    //                       Signup
-    //                     </Button>
-    //                     <ListItemText className="loginpage-link-outer">
-    //                       {" "}
-    //                       Back to
-    //                       <NavLink
-    //                         className="registerpage-login-link"
-    //                         to={"/auth/loginpage"}
-    //                       >
-    //                         Login
-    //                       </NavLink>
-    //                     </ListItemText>
-    //                   </div>
-    //                 </form>
-    //               </GridItem>
-    //             </GridContainer>
-    //           </CardBody>
-    //         </Card>
-    //       </GridItem>
-    //     </GridContainer>
-    //   </div>
 
   );
 

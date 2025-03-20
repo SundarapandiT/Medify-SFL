@@ -22,48 +22,37 @@ const EmailVerification = () => {
   const inputRefs = useRef([]);
   const otpGenerated = useRef(false);
 
-  async function generateOTP()
-  {
+  async function generateOTP() {
     const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      setGeneratedOtp(newOtp);
-      console.log("Generated OTP:", newOtp);
-      toast.success("OTP sent to Your Mail", {
-        position: "top-right", 
-        duration: 3000,        
+    setGeneratedOtp(newOtp); 
+  
+    console.log("Generated OTP:", newOtp);
+  
+    try {
+      const response = await axios.post("http://localhost:5000/send-email", {
+        email: registerDetails.email, 
+        otp: newOtp,                   
       });
-  }
-
-  // async function generateOTP() {
-  //   const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-  //   setGeneratedOtp(newOtp); 
   
-  //   console.log("Generated OTP:", newOtp);
-  
-  //   try {
-  //     const response = await axios.post("http://localhost:5000/send-email", {
-  //       email: registerDetails.email, 
-  //       otp: newOtp,                   
-  //     });
-  
-  //     if (response.status === 200 && response.data.message) {
-  //       toast.success(response.data.message, {
-  //         position: "top-right",
-  //         autoClose: 3000,
-  //       });
+      if (response.status === 200 && response.data.message) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+        });
      
-  //     } else {
-  //       throw new Error("Email sending failed");
-  //     }
+      } else {
+        throw new Error("Email sending failed");
+      }
   
-  //   } catch (error) {
-  //     console.error("Error sending OTP:", error);
+    } catch (error) {
+      console.error("Error sending OTP:", error);
   
-  //     toast.error("Failed to send OTP. Try again.", {
-  //       position: "top-right",
-  //       autoClose: 3000,
-  //     });
-  //   }
-  // }
+      toast.error("Failed to send OTP. Try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
+  }
   
 
 
@@ -89,11 +78,6 @@ const EmailVerification = () => {
       if (value !== "" && index < 5) {
         inputRefs.current[index + 1].focus();
       }
-
-      // Validate OTP when last digit is entered
-      // if (index === 5 && value !== "") {
-      //   validateOtp(newOtp.join(""));
-      // }
     }
   };
 
@@ -104,15 +88,12 @@ const EmailVerification = () => {
     }
   };
 
-  // Validate OTP (Replace with actual validation logic)
   const validateOtp = (enteredOtp) => {
     if (enteredOtp === generatedOtp) {
-      // alert("✅ OTP Verified Successfully!");
       toast.success(" OTP Verified Successfully!");
       setEmailVerify(true);
       navigate('/auth/register-page');
     } else {
-      // alert("❌ Invalid OTP. Please try again.");
       toast.error("Invalid OTP. Please try again.");
 
     }
