@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Button, IconButton, InputAdornment, CircularProgress, Box, Typography, Paper } from "@mui/material";
+import { TextField, Button, IconButton, InputAdornment, Box, Typography, Paper } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "/SFL_logo.png";
 import { FaUser, FaLock } from "react-icons/fa";
@@ -126,7 +126,7 @@ import CryptoJS from "crypto-js";
             LOG IN
           </Button>
           <Box display="flex" justifyContent="space-between" mt={2}>
-            <Typography variant="body2" component="a" href="/forgot-password" color="primary" sx={{ color: "darkblue",textDecoration: "none" }}>
+            <Typography variant="body2" component="a" href="/auth/forgotpassword-page" color="primary" sx={{ color: "darkblue",textDecoration: "none" }}>
               Forgot Password?
             </Typography>
             <Typography variant="body2"  color="primary"  component="a" href="/auth/register-page"  sx={{ color: "darkblue",textDecoration: "none" }} >

@@ -1,8 +1,26 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from "@tailwindcss/vite"
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),tailwindcss()],
-})
+  plugins: [react()],
+  build: {
+    sourcemap: false, // Disable source maps in production
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+      format: {
+        comments: false,
+      },
+    },
+  },
+  define: {
+    'process.env.NODE_ENV': '"production"', // Force production mode
+  },
+  esbuild: {
+    sourcemap: false, // Disable source maps in development
+    minify: true, // Minify code in development
+  },
+});
