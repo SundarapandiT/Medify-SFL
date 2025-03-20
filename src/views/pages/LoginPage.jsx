@@ -67,7 +67,7 @@ import CryptoJS from "crypto-js";
     >
       <Paper elevation={3} sx={{ padding: 4, maxWidth: 400, textAlign: "center", position: "relative",borderRadius: 2, boxShadow: 3,borderTop: "5px solid #d9040c" }}>
         {/* <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "5px", backgroundColor: "red" }} /> */}
-        <img src={logo} alt="Logo" width={150} style={{ marginBottom: 20 }} />
+        <img src={logo} alt="Logo" width={150} style={{ marginBottom: 20 ,justifySelf:"center"}} />
         <Typography variant="h5" fontWeight="bold" gutterBottom>
           
         </Typography>
