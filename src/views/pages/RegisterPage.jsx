@@ -509,8 +509,8 @@ const RegisterPage = () => {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+            <IconButton onClick={() => setShowPassword((prev) => !prev)} sx={{ padding:"5px" }}>
+              {showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }}/>}
             </IconButton>
           </InputAdornment>
         ),
@@ -597,8 +597,8 @@ const RegisterPage = () => {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+            <IconButton onClick={() => setShowPassword((prev) => !prev)} sx={{ padding: "5px" }}>
+              {showPassword ? <VisibilityOff  sx={{ fontSize: 18 }}/> : <Visibility sx={{ fontSize: 18 }} />}
             </IconButton>
           </InputAdornment>
         ),
@@ -687,13 +687,10 @@ const RegisterPage = () => {
             SIGN UP
           </Button>
         </form>
-
-        <Typography align="center" mt={2} color="textSecondary">
-          Already have an account?{" "}
-          <Link component={NavLink} to="/login" color="primary">
-            Login
-          </Link>
-        </Typography>
+        <Box display="flex" justifyContent="center" mt={2}>
+        <Typography variant="body2"  color="primary"  component="a" href="/auth/login-page"  sx={{ color: "darkblue",textDecoration: "none", fontWeight:400 }} >
+        Already have an account?
+            </Typography></Box>
       </Paper>
     </Box>
     

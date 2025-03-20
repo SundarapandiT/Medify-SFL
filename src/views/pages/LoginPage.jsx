@@ -126,10 +126,10 @@ import CryptoJS from "crypto-js";
             LOG IN
           </Button>
           <Box display="flex" justifyContent="space-between" mt={2}>
-            <Typography variant="body2" component="a" href="/forgot-password" color="primary" sx={{ color: "#3F51B5",textDecoration: "none" }}>
+            <Typography variant="body2" component="a" href="/forgot-password" color="primary" sx={{ color: "darkblue",textDecoration: "none" }}>
               Forgot Password?
             </Typography>
-            <Typography variant="body2"  color="textsecondary"  component="a" href="/auth/register-page"  sx={{ color: "#3F51B5",textDecoration: "none" }} >
+            <Typography variant="body2"  color="primary"  component="a" href="/auth/register-page"  sx={{ color: "darkblue",textDecoration: "none" }} >
               Don't have an account?
             </Typography>
           </Box>
