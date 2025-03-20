@@ -22,45 +22,49 @@ const EmailVerification = () => {
   const inputRefs = useRef([]);
   const otpGenerated = useRef(false);
 
-  // async function generateOTP()
-  // {
-  //   const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-  //     setGeneratedOtp(newOtp);
-  //     console.log("Generated OTP:", newOtp);
-  //     toast.success("OTP sent to Your Mail", {
-  //       position: "top-right", 
-  //       duration: 3000,        
-  //     });
-  // }
-
-async function generateOTP() {
-  const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-  setGeneratedOtp(newOtp); 
-
-  console.log("Generated OTP:", newOtp);
-
-  try {
-    const response = await axios.post("http://localhost:5000/send-email", {
-      email: registerDetails.email, 
-      otp: newOtp,                   
-    });
-
-    toast.success("OTP sent to your email!", {
-      position: "top-right",
-      autoClose: 3000,
-    });
-
-    setMessage(response.data.message);
-  } catch (error) {
-    console.error("Error sending OTP:", error);
-    toast.error("Failed to send OTP. Try again.", {
-      position: "top-right",
-      autoClose: 3000,
-    });
-
-    setMessage("Failed to send email.");
+  async function generateOTP()
+  {
+    const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      setGeneratedOtp(newOtp);
+      console.log("Generated OTP:", newOtp);
+      toast.success("OTP sent to Your Mail", {
+        position: "top-right", 
+        duration: 3000,        
+      });
   }
-}
+
+  // async function generateOTP() {
+  //   const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+  //   setGeneratedOtp(newOtp); 
+  
+  //   console.log("Generated OTP:", newOtp);
+  
+  //   try {
+  //     const response = await axios.post("http://localhost:5000/send-email", {
+  //       email: registerDetails.email, 
+  //       otp: newOtp,                   
+  //     });
+  
+  //     if (response.status === 200 && response.data.message) {
+  //       toast.success(response.data.message, {
+  //         position: "top-right",
+  //         autoClose: 3000,
+  //       });
+     
+  //     } else {
+  //       throw new Error("Email sending failed");
+  //     }
+  
+  //   } catch (error) {
+  //     console.error("Error sending OTP:", error);
+  
+  //     toast.error("Failed to send OTP. Try again.", {
+  //       position: "top-right",
+  //       autoClose: 3000,
+  //     });
+  //   }
+  // }
+  
 
 
   useEffect(() => {
@@ -71,7 +75,6 @@ async function generateOTP() {
   }, []);
   
 
-  // Handle input change
   const handleChange = (e, index) => {
     let value = e.target.value;
     if (/^[0-9]?$/.test(value)) {
@@ -82,7 +85,7 @@ async function generateOTP() {
       setOtp(newOtp);
       setFilled(newFilled);
 
-      // Move to the next input if not empty and within range
+      
       if (value !== "" && index < 5) {
         inputRefs.current[index + 1].focus();
       }
@@ -94,7 +97,7 @@ async function generateOTP() {
     }
   };
 
-  // Handle key press (Backspace moves to the previous input)
+ 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1].focus();
@@ -180,12 +183,6 @@ async function generateOTP() {
         <Typography variant="body2" mt={2} color="primary" sx={{ cursor: "pointer" }} onClick={generateOTP}>
           Resend Code
         </Typography>
-        <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
-        message={message}
-      />
       </Paper>
     </Container></>
      

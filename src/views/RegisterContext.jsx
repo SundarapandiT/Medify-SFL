@@ -1,10 +1,9 @@
 import { createContext, useState, useContext } from "react";
 
-// Create the context
 const RegisterContext = createContext();
 
-// Provider component
-export const RegisterProvider = ({ children }) => {
+
+export  const RegisterProvider = ({ children }) => {
     const [registerDetails, setRegisterDetails] = useState({
         username: "",
         fullname: "",
@@ -23,7 +22,7 @@ export const RegisterProvider = ({ children }) => {
     );
 };
 
-// Custom hook to use the context
+
 export const useRegister = () => {
     return useContext(RegisterContext);
 };

@@ -3,13 +3,14 @@ import {React, useState} from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-import api from "../../utils/apiClient";
+// import api from "../../utils/apiClient";
 // import SimpleBackdrop from "../../utils/general";
 import moment from "moment";
 import { CommonConfig } from "../../utils/constant";
 
 // Material UI components
-import { Box, Paper, TextField, Button, Typography, Link, InputAdornment, Grid, Popover,useMediaQuery } from "@mui/material";
+import { Box, Paper, TextField, Button, Typography, Link, InputAdornment, Grid, Popover,useMediaQuery,IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 // import { makeStyles } from "@mui/styles";
 // import InputAdornment from "@mui/material/InputAdornment";
 // import Icon from "@mui/material/Icon";
@@ -53,12 +54,14 @@ import PhoneIcon from "@mui/icons-material/Phone";
 
 // const useStyles = makeStyles(styles);
 import { useRegister } from "../RegisterContext";
+import CryptoJS from "crypto-js";
 
 
 const RegisterPage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeField, setActiveField] = useState(""); 
   const isMobile = useMediaQuery("(max-width:600px)");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate=useNavigate();
   const {emailVerify,setEmailVerify, registerDetails, setRegisterDetails}=useRegister();
   const [state, setState] = useState({
@@ -118,32 +121,32 @@ const RegisterPage = () => {
     let isFormValid = true;
     let errors = {};
 
-    if (CommonConfig.isEmpty(state.fullname)) {
+    if (CommonConfig.isEmpty(registerDetails.fullname)) {
       isFormValid = false;
       errors.fullnameErr = true;
       errors.fullnameHelperText = "Please enter Full name";
     }
-    if (CommonConfig.isEmpty(state.username)) {
+    if (CommonConfig.isEmpty(registerDetails.username)) {
       isFormValid = false;
       errors.usernameErr = true;
       errors.usernameHelperText = "Please enter username";
     }
-    if (CommonConfig.isEmpty(state.mobile)) {
+    if (CommonConfig.isEmpty(registerDetails.mobile)) {
       isFormValid = false;
       errors.mobileErr = true;
       errors.mobileHelperText = "Please enter mobile number";
     }
-    if (CommonConfig.isEmpty(state.password)) {
+    if (CommonConfig.isEmpty(registerDetails.password)) {
       isFormValid = false;
       errors.passwordErr = true;
       errors.passwordHelperText = "Please enter password";
     }
-    if (CommonConfig.isEmpty(state.confirmpassword)) {
+    if (CommonConfig.isEmpty(registerDetails.confirmpassword)) {
       isFormValid = false;
       errors.confirmpasswordErr = true;
       errors.confirmpasswordHelperText = "Please enter confirm password";
     }
-    if (CommonConfig.isEmpty(state.email)) {
+    if (CommonConfig.isEmpty(registerDetails.email)) {
       isFormValid = false;
       errors.emailErr = true;
       errors.emailHelperText = "Please enter email";
@@ -262,58 +265,71 @@ const RegisterPage = () => {
 
     setState((prevState) => ({ ...prevState, ...errors }));
   };
-
   const signUp = async (event) => {
     event.preventDefault();
     if (validate()) {
       try {
-        let data = {
-          Name: state.fullname,
-          UserName: state.username,
-          Password: state.password,
-          Phone: state.mobile,
-          Email: state.email,
-          UserDetails: {},
-        };
-
-        const res = await api.post("authentication/userRegister", data);
-        if (res.success) {
-          toast.success("Registration successful!");
-        } else {
-          toast.error(res.message);
+        const SECRET_KEY = import.meta.env.VITE_SECRET_KEY;
+        if (!SECRET_KEY) {
+          throw new Error("Encryption key is missing!");
         }
+        const encryptedData = {
+          Name: CryptoJS.AES.encrypt(registerDetails.fullname, SECRET_KEY).toString(),
+          UserName: CryptoJS.AES.encrypt(registerDetails.username, SECRET_KEY).toString(),
+          Password: CryptoJS.AES.encrypt(registerDetails.password, SECRET_KEY).toString(),
+          Phone: CryptoJS.AES.encrypt(registerDetails.mobile, SECRET_KEY).toString(),
+          Email: CryptoJS.AES.encrypt(registerDetails.email, SECRET_KEY).toString(),
+        };
+  
+        console.log((encryptedData));
+
+        // const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
+        // const decryptedString = bytes.toString(CryptoJS.enc.Utf8);
+
+        // console.log(JSON.parse(decryptedString));
+        // Send encrypted data to backend
+        // const res = await axios.post("http://localhost:5000/api/submit", {
+        //   data: encryptedData,
+        // });
+  
+        // if (res.data.success) {
+        //   toast.success("Registration successful!");
+        // } else {
+        //   toast.error(res.data.message || "Registration failed");
+        // }
       } catch (error) {
-        toast.error("Something went wrong");
+        console.error("Sign-up error:", error);
+        toast.error(error.message || "Something went wrong");
       }
     }
-  };
+  }
 
-  const login = async (data) => {
-    try {
-      const res = await api.post("authentication/userLoginAuthenticate", data);
-      if (res.success) {
-        setState((prevState) => ({ ...prevState, Loading: true, isloggedIn: true }));
+  // const login = async (data) => {
+  //   try {
+  //     const res = await api.post("authentication/userLoginAuthenticate", data);
+  //     if (res.success) {
+  //       setState((prevState) => ({ ...prevState, Loading: true, isloggedIn: true }));
 
-        let timeZone = moment.tz.guess();
-        const time = moment.tz(res.Data.LastLoginTimestamp);
-        const date = time.clone().tz(timeZone);
-        let formatDate = moment(date).format("YYYY-MM-DD HH:mm:ss");
-        formatDate = moment(formatDate).add(30, "minutes");
-        res.Data.LastLoginTimestamp = moment(formatDate).format("YYYY-MM-DD HH:mm:ss");
+  //       let timeZone = moment.tz.guess();
+  //       const time = moment.tz(res.Data.LastLoginTimestamp);
+  //       const date = time.clone().tz(timeZone);
+  //       let formatDate = moment(date).format("YYYY-MM-DD HH:mm:ss");
+  //       formatDate = moment(formatDate).add(30, "minutes");
+  //       res.Data.LastLoginTimestamp = moment(formatDate).format("YYYY-MM-DD HH:mm:ss");
 
-        localStorage.setItem("loggedInUserData", JSON.stringify(res.Data));
+  //       localStorage.setItem("loggedInUserData", JSON.stringify(res.Data));
         
-        setTimeout(() => {
-          window.location.href = "/admin/Scheduleshipment";
-        }, 4000);
-      } else {
-        setState((prevState) => ({ ...prevState, Loading: false }));
-        toast.error(res.message);
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
-  };
+  //       setTimeout(() => {
+  //         window.location.href = "/admin/Scheduleshipment";
+  //       }, 4000);
+  //     } else {
+  //       setState((prevState) => ({ ...prevState, Loading: false }));
+  //       toast.error(res.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error("Something went wrong");
+  //   }
+  // };
 
   return (
     
@@ -461,7 +477,7 @@ const RegisterPage = () => {
   <Grid item xs={12} sm={6}>
     <TextField
       fullWidth
-      type="password"
+      type={showPassword ? "text" : "password"}
       name="password"
       label="Password"
       // placeholder="Password"
@@ -489,6 +505,13 @@ const RegisterPage = () => {
         startAdornment: (
           <InputAdornment position="start">
             <FaLock color="gray" />
+          </InputAdornment>
+        ),
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
           </InputAdornment>
         ),
       }}
@@ -544,7 +567,7 @@ const RegisterPage = () => {
   <Grid item xs={12} sm={6}>
     <TextField
       fullWidth
-      type="password"
+      type={showPassword ? "text" : "password"}
       name="confirmpassword"
       label="Confirm Password"
       // placeholder="Confirm Password"
@@ -570,6 +593,13 @@ const RegisterPage = () => {
         startAdornment: (
           <InputAdornment position="start">
             <FaLock color="gray" />
+          </InputAdornment>
+        ),
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
           </InputAdornment>
         ),
       }}
@@ -640,7 +670,7 @@ const RegisterPage = () => {
                 </InputAdornment>
               ),
               endAdornment: state.email.includes("@") ? (
-                <Button  type="submit"  
+                <Button  
                 variant="contained" 
                 sx={{ backgroundColor: "Green" }} onClick={()=>{navigate('/emailverification')}}>Verify</Button>
               ) : null,
