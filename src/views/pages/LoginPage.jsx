@@ -2,7 +2,8 @@ import { useState } from "react";
 import { TextField, Button, IconButton, InputAdornment, Box, Typography, Paper } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "/SFL_logo.png";
-import { FaUser, FaLock } from "react-icons/fa";
+import { PersonOutline as FaUser, LockOutlined as FaLock } from "@mui/icons-material";
+
 // import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 
