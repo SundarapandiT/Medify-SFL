@@ -2,10 +2,7 @@ import {React, useState} from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-// import api from "../../utils/apiClient";
-
-import { CommonConfig } from "../../utils/constant";
-
+import { isEmpty, RegExpConfig } from "../../utils/constant";
 
 import { Box, Paper, TextField, Button, Typography, Link, InputAdornment, Grid, Popover,useMediaQuery,IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -86,32 +83,32 @@ const RegisterPage = () => {
     let isFormValid = true;
     let errors = {};
 
-    if (CommonConfig.isEmpty(registerDetails.fullname)) {
+    if (isEmpty(registerDetails.fullname)) {
       isFormValid = false;
       errors.fullnameErr = true;
       errors.fullnameHelperText = "Please enter Full name";
     }
-    if (CommonConfig.isEmpty(registerDetails.username)) {
+    if (isEmpty(registerDetails.username)) {
       isFormValid = false;
       errors.usernameErr = true;
       errors.usernameHelperText = "Please enter username";
     }
-    if (CommonConfig.isEmpty(registerDetails.mobile)) {
+    if (isEmpty(registerDetails.mobile)) {
       isFormValid = false;
       errors.mobileErr = true;
       errors.mobileHelperText = "Please enter mobile number";
     }
-    if (CommonConfig.isEmpty(registerDetails.password)) {
+    if (isEmpty(registerDetails.password)) {
       isFormValid = false;
       errors.passwordErr = true;
       errors.passwordHelperText = "Please enter password";
     }
-    if (CommonConfig.isEmpty(registerDetails.confirmpassword)) {
+    if (isEmpty(registerDetails.confirmpassword)) {
       isFormValid = false;
       errors.confirmpasswordErr = true;
       errors.confirmpasswordHelperText = "Please enter confirm password";
     }
-    if (CommonConfig.isEmpty(registerDetails.email)) {
+    if (isEmpty(registerDetails.email)) {
       isFormValid = false;
       errors.emailErr = true;
       errors.emailHelperText = "Please enter email";
@@ -128,7 +125,7 @@ const RegisterPage = () => {
     switch (type) {
       case "fullname":
         errors.checkFullName = true;
-        if (CommonConfig.isEmpty(value)) {
+        if (isEmpty(value)) {
           errors.fullnameErr = true;
           errors.fullnameHelperText = "Please enter Full Name";
         } else if (value.trim() !== value) {
@@ -142,7 +139,7 @@ const RegisterPage = () => {
         break;
       case "username":
         errors.checkUserName = true;
-        if (CommonConfig.isEmpty(value)) {
+        if (isEmpty(value)) {
           errors.usernameErr = true;
           errors.usernameHelperText = "Please enter User Name";
         } else if (value.trim() !== value) {
@@ -159,7 +156,7 @@ const RegisterPage = () => {
       case "email":
         errors.checkEmail = true;
         const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9-]+\.[A-Z]{2,6}$/gi;
-        if (CommonConfig.isEmpty(value)) {
+        if (isEmpty(value)) {
           errors.emailErr = true;
           errors.emailHelperText = "Please enter Email";
         } else if (value.trim() !== value || !value.match(emailRegExp)) {
@@ -174,7 +171,7 @@ const RegisterPage = () => {
       case "mobile":
         errors.checkMobile = true;
         const mobileRegExp = /^[0-9]{10,15}$/;
-        if (CommonConfig.isEmpty(value)) {
+        if (isEmpty(value)) {
           errors.mobileErr = true;
           errors.mobileHelperText = "Please enter Mobile Number";
         } else if (value.trim() !== value || !value.match(mobileRegExp)) {
@@ -189,7 +186,7 @@ const RegisterPage = () => {
         break;
       case "password":
         errors.checkPassword = true;
-        if (CommonConfig.isEmpty(value)) {
+        if (isEmpty(value)) {
           errors.passwordErr = true;
           errors.passwordHelperText = "Please enter Password";
         } 
@@ -212,7 +209,7 @@ const RegisterPage = () => {
         break;
       case "confirmpassword":
         errors.checkConfirmPassword = true;
-        if (CommonConfig.isEmpty(value)) {
+        if (isEmpty(value)) {
           errors.confirmpasswordErr = true;
           errors.confirmpasswordHelperText = "Please enter Confirm Password";
         } else if (value !== state.password) {
