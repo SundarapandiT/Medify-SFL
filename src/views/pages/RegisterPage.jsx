@@ -7,13 +7,17 @@ import { isEmpty, RegExpConfig } from "../../utils/constant";
 import { Box, Paper, TextField, Button, Typography, Link, InputAdornment, Grid, Popover,useMediaQuery,IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { FaUser, FaLock, FaPhone, FaEnvelope } from "react-icons/fa";
+// import { FaUser, FaLock } from "react-icons/fa";
+import { PersonOutline as FaUser, LockOutlined as FaLock } from "@mui/icons-material";
+
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
 import { CheckCircle, Cancel } from "@mui/icons-material";
+import  MailOutlineIcon  from "@mui/icons-material/MailOutline";
 import { red, green } from "@mui/material/colors";
 
-import PhoneIcon from "@mui/icons-material/Phone";
+// import PhoneIcon from "@mui/icons-material/Phone";
+import { PhoneOutlined as PhoneIcon } from "@mui/icons-material";
 
 import { useRegister } from "../RegisterContext";
 import CryptoJS from "crypto-js";
@@ -594,7 +598,7 @@ const RegisterPage = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <FaEnvelope color="gray" />
+                  <MailOutlineIcon color="gray" />
                 </InputAdornment>
               ),
               endAdornment: state.email.includes("@") ? (
